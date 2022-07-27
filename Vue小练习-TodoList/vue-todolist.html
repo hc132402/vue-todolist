@@ -1,0 +1,96 @@
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+  <title>Vue小练习-TodoList</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+  <meta name="robots" content="noindex, nofollow"/>
+  <meta name="googlebot" content="noindex, nofollow"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <link rel="stylesheet" type="text/css" href="./css/index.css"/>
+  <script src="https://unpkg.com/vue@3.2.36"></script>
+</head>
+
+<body>
+<!-- 主体区域 -->
+<section id="todoapp">
+  <!-- 输入框 -->
+  <header class="header">
+    <h1>TodoList</h1>
+    <input
+      autofocus="autofocus"
+      autocomplete="off"
+      placeholder="回车添加ToDo"
+      class="new-todo"
+      v-model="inputValue"
+      @keyup.enter="add"
+    />
+  </header>
+  <!-- 列表区域 -->
+  <section class="main">
+    <ul class="todo-list">
+      <li class="todo" v-for="(item,index) in list">
+        <div class="view">
+          <span class="index">{{ index + 1 }}.</span> <label :title="item">{{ item }}</label>
+          <button class="destroy" @click="remove(index)"></button>
+        </div>
+      </li>
+    </ul>
+  </section>
+  <!-- 统计和清空 -->
+  <footer class="footer">
+    <span class="todo-count"> 共 <strong>{{ list.length }}</strong> 个 todo </span>
+    <button class="clear-completed" @click="clearAll"  v-show="list.length !== 0">
+      清空
+    </button>
+  </footer>
+</section>
+<!-- 底部 -->
+<footer class="info">
+  <p>
+    <a href="#"
+    ><img
+      src="https://ts1.cn.mm.bing.net/th/id/R-C.f034e902f3833fe060b28ff10f49fd88?rik=L14BpL44x%2fj4kg&riu=http%3a%2f%2fww2.kqed.org%2farts%2fwp-content%2fuploads%2fsites%2f2%2f2015%2f11%2fThe-Do-LIst-logo-2014-horizontal-015.png&ehk=JuW2uo8BD3SlNryV3A3j4vsoy%2f76YaQQylf8TuKLS34%3d&risl=&pid=ImgRaw&r=0"
+      alt=""
+    /></a>
+  </p>
+</footer>
+
+<script>
+  const todoapp = {
+    data() {
+      return {
+        list: ['写代码', '吃饭饭', '睡觉觉'],
+        inputValue: '',
+      }
+    },
+    methods: {
+      // 添加todo
+      add() {
+        let addValue = this.inputValue.trim() // 去除两端空格
+        if (addValue.length > 0) {
+          this.list.push(addValue)
+        }
+        this.inputValue = ''
+      },
+      // 删除todo
+      remove(index) {
+        this.list.splice(index, 1)
+      },
+      // 清空
+      clearAll() {
+        let msg = "您真的确定要清空所有todo吗？";
+        if (confirm(msg) === true) {
+          this.list = []
+          return true;
+        } else {
+          return false;
+        }
+      }
+    }
+  }
+
+  Vue.createApp(todoapp).mount('#todoapp')
+</script>
+
+</body>
+</html>
